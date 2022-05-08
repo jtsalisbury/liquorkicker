@@ -1,0 +1,21 @@
+{
+    "liquor_configs": {
+        "Rum": 0,
+        "Vodka": 1,
+        "Tequila": 2,
+        "Whiskey": 3,
+        "Lime Juice": 4,
+        "Lemonade": 5,
+        "Orange Juice": 6,
+        "Sour Mix": 7
+    },
+    "drinks": [
+        {
+            "name": "Screwdriver",
+            "ingredients": {
+                "Vodka": 1.5,
+                "Orange Juice": 4
+            }
+        }
+    ]
+}
