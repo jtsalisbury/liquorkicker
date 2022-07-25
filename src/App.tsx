@@ -1,6 +1,5 @@
 import './App.css';
-import { useState, useMemo, useEffect } from 'react';
-import { Connection } from './socket/Connection';
+import { useState, useEffect } from 'react';
 import * as React from 'react';
 import { PouringStatus } from './models/PouringStatus';
 import { getDrinks } from './utils';
@@ -8,6 +7,7 @@ import { Drink } from './models/Drink';
 import { io, Socket } from 'socket.io-client';
 import { EVENTS } from './constants/constants';
 import DrinkSelector from './components/DrinkSelector';
+import DrinkProgress from './components/DrinkProgress';
 
 function App() {
   const [pourStatus, setPourStatus] = useState<PouringStatus>();
@@ -46,6 +46,13 @@ function App() {
   }
 
   const handlePourFinished = () => {
+    setActiveDrink(null);
+    setPourStatus(null);
+  }
+
+  // TODO: Try to reconnect
+  const handleDisconnect = () => {
+    setActiveDrink(null);
     setPourStatus(null);
   }
 
@@ -56,10 +63,12 @@ function App() {
 
     socket.on(EVENTS.POUR_IN_PROGRESS, handlePourStatus);
     socket.on(EVENTS.POUR_FINISHED, handlePourFinished);
+    socket.on(EVENTS.DISCONNECT, handleDisconnect);
 
     return () => {
       socket.off(EVENTS.POUR_IN_PROGRESS, handlePourStatus);
       socket.off(EVENTS.POUR_FINISHED, handlePourFinished);
+      socket.off(EVENTS.DISCONNECT, handleDisconnect);
     }
     
   }, [socket])
@@ -83,12 +92,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {
-        pourStatus && 
-          <p>time left {pourStatus.pour_time_left}s for {activeDrink && activeDrink.name}</p> 
-        || 
-          <p>not pouring</p>
-        }
+        {  activeDrink 
+        && 
+          <DrinkProgress activeDrink={activeDrink} pourStatus={pourStatus}></DrinkProgress>
+        ||
+          <p>Not pouring anything</p>}
         
         <DrinkSelector socket={socket} activeDrink={activeDrink} drinks={drinks}></DrinkSelector>
 
