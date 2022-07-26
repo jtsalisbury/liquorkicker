@@ -9,6 +9,7 @@ import { EVENTS } from "../constants/constants";
 import { Drink } from "../models/Drink";
 import DrinkCard from "./DrinkCard";
 import './styles/DrinkSelector.css';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 
 interface IDrinkSelectorProps {
     socket: Socket;
@@ -19,6 +20,8 @@ interface IDrinkSelectorProps {
 const DrinkSelector: React.FunctionComponent<IDrinkSelectorProps> = ({ socket, drinks = []}) => {
     const [query, setQuery] = useState('');
     const [filteredDrinks, setFilteredDrinks] = useState<Drink[]>();
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [drinkId, setDrinkId] = useState<number>();
 
     useEffect(() => {
         const result = drinks.filter(drink => {
@@ -50,16 +53,49 @@ const DrinkSelector: React.FunctionComponent<IDrinkSelectorProps> = ({ socket, d
     }, [drinks, query]);
 
     const onOrder = (drink: Drink) => {
-        socket.emit(EVENTS.REQUEST_POUR, JSON.stringify({
-            drink_id: drink.id
-        }));
+        setDrinkId(drink.id);
+        setDialogOpen(true);
     }
 
     const onEdit = (drink: Drink) => {
 
     }
 
+    const onDialogClose = (confirmed: boolean) => {
+        setDialogOpen(false);
+
+        if (confirmed) {
+            socket.emit(EVENTS.REQUEST_POUR, JSON.stringify({
+                drink_id: drinkId
+            }));
+        }
+    }
+
     return <div className="drink-selector">
+        <div>
+            <Dialog
+                open={dialogOpen}
+                onClose={() => onDialogClose(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Have you placed a cup?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Please confirm that there is an empty cup available under the nozzle
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => onDialogClose(false)}>Cancel</Button>
+                    <Button onClick={() => onDialogClose(true)} autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+
         <div className="drink-selector-container">
             <div className="drink-search-container">
                 <TextField 
