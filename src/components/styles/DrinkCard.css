@@ -1,0 +1,47 @@
+
+.drink-card-content {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    height: 100px;
+    text-align: left;
+    padding: 0px !important;
+}
+
+.drink-card-icon {
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    width: 96px;
+    height: 96px;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.drink-card-ingredients {
+    margin: 0px;
+    font-size: small;
+}
+
+.drink-card-info {
+    width: calc(100% - 50px - 150px);
+    padding: 5px;
+}
+
+.drink-card-actions {
+    display: flex;
+    flex: 0 1 auto;
+    width: 150px;
+}
+
+.drink-card-header {
+    margin: 0px;
+}
+
+.drink-card-actions {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

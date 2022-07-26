@@ -1,0 +1,21 @@
+.drink-selector {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.drink-search {
+    width: 100%;
+}
+
+.drink-selector-container {
+    margin: 10px;
+    height: calc(100vh - 20px);
+}
+
+.drink-cards-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: calc(100% - 66px);
+    overflow: auto;
+}

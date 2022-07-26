@@ -1,0 +1,38 @@
+.loading-spinner {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.ingredient-progress-bar {
+    margin-bottom: 5px;
+    width: 100% !important;
+    height: 15px !important;
+}
+
+.ingredient-progress {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ingredients {
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100%;
+}
+
+.ingredient-percent {
+    font-size: 12px;
+    width: 40px;
+    height: 15px !important;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.ingredient-name {
+    font-size: 12px;
+    width: 100px;
+    height: 15px !important;
+    margin: 0;
+    margin-right: 5px;
+}

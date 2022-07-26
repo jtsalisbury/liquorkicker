@@ -8,6 +8,15 @@ import { io, Socket } from 'socket.io-client';
 import { EVENTS } from './constants/constants';
 import DrinkSelector from './components/DrinkSelector';
 import DrinkProgress from './components/DrinkProgress';
+import Loading from './components/Loading';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ENDPOINT } from './config/config';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   const [pourStatus, setPourStatus] = useState<PouringStatus>();
@@ -17,9 +26,7 @@ function App() {
   const [socket, setSocket] = useState<Socket>(null);
 
   useEffect(() => {
-    if (drinks && pourStatus && !activeDrink) {
-      console.log('setting active', drinks)
-      
+    if (drinks && pourStatus && !activeDrink) {      
       if (!drinks) {
         return;
       }
@@ -27,10 +34,10 @@ function App() {
       const drink = drinks.filter(drink => drink.id === pourStatus.drink_id)[0];
       setActiveDrink(drink);
     }
-  }, [drinks, pourStatus])
+  }, [drinks, pourStatus, activeDrink])
 
   useEffect(() => {
-   const socket = io('http://localhost:8080', {
+   const socket = io(ENDPOINT, {
         transports: ['websocket', 'polling', 'flashsocket']
    });
 
@@ -79,29 +86,27 @@ function App() {
     }
 
     getDrinks().then(result => {
-      console.log('retrieved drinks', result)
       setDrinks([...result]);
       setIsLoading(false);
-
     });
  
-  }, []);
-
-
+  }, [isLoading]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {  activeDrink 
-        && 
-          <DrinkProgress activeDrink={activeDrink} pourStatus={pourStatus}></DrinkProgress>
-        ||
-          <p>Not pouring anything</p>}
-        
-        <DrinkSelector socket={socket} activeDrink={activeDrink} drinks={drinks}></DrinkSelector>
+    <ThemeProvider theme={darkTheme}>
+      <div className="App">
+        {!drinks && <div className="container"><Loading></Loading></div>}
 
-      </header>
-    </div>
+        {(drinks && activeDrink) && 
+            <div className="container">
+              <DrinkProgress activeDrink={activeDrink} pourStatus={pourStatus}></DrinkProgress>
+            </div>
+        }
+
+        {(drinks && !activeDrink) && <DrinkSelector socket={socket} activeDrink={activeDrink} drinks={drinks}></DrinkSelector>}
+
+      </div>
+      </ThemeProvider>
   );
 }
 
