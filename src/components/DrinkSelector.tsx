@@ -80,7 +80,7 @@ const DrinkSelector: React.FunctionComponent<IDrinkSelectorProps> = ({ socket, d
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Have you placed a cup?"}
+                    Verify an empty cup
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">

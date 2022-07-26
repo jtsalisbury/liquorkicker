@@ -17,6 +17,10 @@
     margin-left: 2px;
 }
 
+.drink-card:not(:first-child) {
+    margin-top: 5px;
+}
+
 .drink-card-ingredients {
     margin: 0px;
     font-size: small;
