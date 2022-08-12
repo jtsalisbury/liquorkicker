@@ -1,1 +1,1 @@
-export const ENDPOINT = "http://localhost:8080/"
+export const ENDPOINT = "http://209.122.194.130:8080/"
