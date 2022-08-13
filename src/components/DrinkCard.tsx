@@ -31,7 +31,7 @@ const DrinkCard: React.FunctionComponent<IDrinkCardProps> = ({ drink, onOrder, o
                 </div>  
 
                 <div className="drink-card-actions">
-                    <Button variant="contained" className="drink-card-button" size="small" onClick={() => onOrder(drink)}>Order</Button>
+                    <Button variant="contained" className="drink-card-button" size="small" onClick={() => onOrder(drink)}>Pour</Button>
                     {/*<Button variant="outlined" className="drink-card-button" size="small" onClick={() => onEdit(drink)}>Customize</Button>*/}
                 </div>                 
 
